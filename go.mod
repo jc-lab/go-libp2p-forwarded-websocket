@@ -1,13 +1,11 @@
 module github.com/jc-lab/go-libp2p-forwarded-websocket
 
-go 1.23.0
-
-toolchain go1.23.2
+go 1.23
 
 require (
 	github.com/gorilla/websocket v1.5.3
-	github.com/libp2p/go-libp2p v0.41.0
-	github.com/multiformats/go-multiaddr v0.15.0
+	github.com/libp2p/go-libp2p v0.38.3
+	github.com/multiformats/go-multiaddr v0.14.0
 	github.com/multiformats/go-multiaddr-fmt v0.1.0
 	github.com/stretchr/testify v1.10.0
 )
@@ -24,7 +22,7 @@ require (
 	github.com/libp2p/go-buffer-pool v0.1.0 // indirect
 	github.com/libp2p/go-libp2p-testing v0.12.0 // indirect
 	github.com/libp2p/go-msgio v0.3.0 // indirect
-	github.com/libp2p/go-yamux/v5 v5.0.0 // indirect
+	github.com/libp2p/go-yamux/v4 v4.0.1 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/mr-tron/base58 v1.2.0 // indirect
