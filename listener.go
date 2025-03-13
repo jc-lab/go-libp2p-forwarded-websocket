@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/libp2p/go-libp2p/core/transport"
@@ -106,13 +108,25 @@ func (l *listener) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	remoteAddr := c.RemoteAddr().String()
 	remoteIp := GetRealIPFromHeader(r.Header)
-	if remoteIp == "" {
-		remoteIp = c.RemoteAddr().String()
+	if remoteIp != nil {
+		remoteTcpAddr, ok := c.RemoteAddr().(*net.TCPAddr)
+		if ok {
+			remoteAddr = IpPort(remoteIp, remoteTcpAddr.Port)
+		} else {
+			p := strings.LastIndex(remoteAddr, ":")
+			if p > 0 {
+				port, err := strconv.ParseInt(remoteAddr[p+1:], 10, 16)
+				if err == nil {
+					remoteAddr = IpPort(remoteIp, int(port))
+				}
+			}
+		}
 	}
 
 	select {
-	case l.incoming <- NewConn(c, l.isWss, remoteIp):
+	case l.incoming <- NewConn(c, l.isWss, remoteAddr):
 	case <-l.closed:
 		c.Close()
 	}
