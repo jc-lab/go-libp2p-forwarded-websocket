@@ -45,6 +45,10 @@ var (
 )
 
 func init() {
+	register()
+}
+
+func register() {
 	manet.RegisterFromNetAddr(ParseWebsocketNetAddr, "websocket")
 	manet.RegisterToNetAddr(ConvertWebsocketMultiaddrToNetAddr, "ws")
 	manet.RegisterToNetAddr(ConvertWebsocketMultiaddrToNetAddr, "wss")
@@ -92,6 +96,9 @@ type WebsocketTransport struct {
 var _ transport.Transport = (*WebsocketTransport)(nil)
 
 func New(u transport.Upgrader, rcmgr network.ResourceManager, opts ...Option) (*WebsocketTransport, error) {
+	// The existing websocket is registered by github.com/libp2p/go-libp2p. This is a trick to ignore it.
+	register()
+
 	if rcmgr == nil {
 		rcmgr = &network.NullResourceManager{}
 	}
